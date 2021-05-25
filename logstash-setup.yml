@@ -1,0 +1,28 @@
+---
+- name: Logstash setup on Ansible ubuntu or debian base host
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install the required dependencies 
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+      with_items:
+         - openjdk-8-jdk
+         - apt-transport-https
+         - gnupg2
+    - name: Add Elasticsearch apt key.
+      apt_key:
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+    - name: Add Logstash repository.
+      apt_repository:
+        repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
+        state: present
+        update_cache: true
+    - name: Install logstash
+      apt:
+        name: logstash
+        state: present
