@@ -1,5 +1,5 @@
 ---
-- name: Logstash setup on Ansible ubuntu or debian base host
+- name: Logstash setup on ubuntu or debian base host
   hosts: all
   become: yes
   tasks:
